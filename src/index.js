@@ -1,5 +1,5 @@
-import {Mapping} from "./Mapping";
-import {Register} from "./Register";
+import {Mapping} from "./decorators/Mapping";
+import {Register} from "./decorators/Register";
 import {launcher} from "./launcher";
 
 exports.Mapping = Mapping;

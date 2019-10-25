@@ -1,5 +1,5 @@
 import express from 'express';
-import {app} from './launcher';
+import {app} from '../launcher';
 import {BeanDescribe, AnnotationUtils, Injector, AnnotationGenerator} from "@palerock/annotate-js";
 import {Mapping} from "./Mapping";
 

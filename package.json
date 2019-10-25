@@ -4,6 +4,7 @@
   "description": "",
   "main": "source/index.js",
   "scripts": {
+    "demo": "nodemon src/demo",
     "build": "babel src -d source"
   },
   "files": [
