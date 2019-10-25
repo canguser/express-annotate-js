@@ -1,11 +1,12 @@
 {
   "name": "@palerock/express-annotate-js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "source/index.js",
   "scripts": {
     "demo": "nodemon src/demo",
-    "build": "babel src -d source"
+    "build": "babel src -d source",
+    "do-publish": "npm run build && npm publish"
   },
   "files": [
     "src",
@@ -13,7 +14,7 @@
     "package.json"
   ],
   "dependencies": {
-    "@palerock/annotate-js": "^1.1.4",
+    "@palerock/annotate-js": "^1.1.7",
     "express": "^4.17.1"
   },
   "devDependencies": {
