@@ -17,30 +17,9 @@ class RegisterDescribe extends BeanDescribe {
     }
 
     onCreated() {
-        super.onCreated();
-        const mappingProperties = AnnotationUtils.getClassEntity(this.originInstance)
-            .properties.filter(
-                property => property.hasAnnotations(Mapping)
-            );
         const option = this.params;
-        const app = option.multiService ? express() : launchedApp;
-        mappingProperties.forEach(mapping => {
-            const mapped = mapping.findAnnotationByType(Mapping);
-            const url = option.prefix + mapped.url;
-            app[mapped.method](url, (request, response) => {
-                const injector = new Injector();
-                injector.inject(request.query);
-                injector.inject(request.params);
-                injector.injectLocalKeyValue('cookies', request.cookies);
-                injector.injectLocal({request, response});
-                // inject body
-                let result = this.targetBean[mapping.name]({
-                    ...injector.result()
-                });
-                response[mapped.resultType](result);
-            });
-            console.log(`register - [${url}] `)
-        });
+        this.appLauncher = option.multiService ? express() : launchedApp;
+        super.onCreated();
         if (option.multiService) {
             const port = option.port;
             app.listen(port, () => console.log(`Example app listening on port http://localhost:${port}!`));

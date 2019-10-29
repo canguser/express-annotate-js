@@ -1,7 +1,8 @@
-import {BasicAnnotationDescribe} from "@palerock/annotate-js";
+import {Injector, PropertyDescribe} from "@palerock/annotate-js";
 import {AnnotationGenerator} from "@palerock/annotate-js";
+import {RegisterDescribe} from "./Register";
 
-class MappingDescribe extends BasicAnnotationDescribe {
+class MappingDescribe extends PropertyDescribe {
 
     constructor() {
         super();
@@ -31,6 +32,30 @@ class MappingDescribe extends BasicAnnotationDescribe {
 
     get defaultKey() {
         return 'url';
+    }
+
+    onClassBuilt(propertyEntity, classDecorator) {
+        super.onClassBuilt(propertyEntity, classDecorator);
+        if (!(classDecorator instanceof RegisterDescribe)) {
+            return;
+        }
+        const {prefix} = classDecorator.params;
+        const app = classDecorator.appLauncher;
+        const mapped = propertyEntity.findAnnotationByType(Mapping);
+        const url = prefix + mapped.url;
+        app[mapped.method](url, (request, response) => {
+            const injector = new Injector();
+            injector.inject(request.query);
+            injector.inject(request.params);
+            injector.injectLocalKeyValue('cookies', request.cookies);
+            injector.injectLocal({request, response});
+            // inject body
+            let result = classDecorator.targetBean[propertyEntity.name]({
+                ...injector.result()
+            });
+            response[mapped.resultType](result);
+        });
+        console.log(`register - [${url}] `)
     }
 }
 

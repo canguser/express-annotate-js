@@ -1,8 +1,18 @@
 import {Register} from "../decorators/Register";
 import {Mapping} from "../decorators/Mapping";
-import {Autowired, Bean, Boot} from "@palerock/annotate-js";
+import {Autowired, Bean, Boot, AnnotationGenerator, SectionDescribe, EnergyWire} from "@palerock/annotate-js";
 import {launcher} from "../launcher";
 
+const LogCallMethod = AnnotationGenerator.generate(
+    class LogCallMethod extends SectionDescribe {
+        constructor() {
+            super();
+            this.params.before = ({origin}) => {
+                console.log(origin.name, 'called');
+            }
+        }
+    }
+);
 
 @Bean
 class Configuration {
@@ -19,6 +29,7 @@ class Configuration {
 class HelloWorld {
 
     @Mapping
+    @LogCallMethod
     sayHello() {
         return 'hello express-annotate!';
     }
@@ -32,7 +43,7 @@ class BootApplication {
     @Autowired('Configuration')
     config;
 
-    @Autowired({beanName: 'Configuration', isMapProperty: true})
+    @EnergyWire('Configuration')
     port;
 
     main() {
