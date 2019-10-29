@@ -25,13 +25,22 @@ class Configuration {
     syncPort;
 }
 
+
+function wait(ms) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve();
+        }, ms)
+    })
+}
+
 @Register
 class HelloWorld {
 
     @Mapping
     @LogCallMethod
     sayHello() {
-        return 'hello express-annotate!';
+        return wait(3000).then(() => 'hello express-annotate!');
     }
 
 }

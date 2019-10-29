@@ -50,10 +50,11 @@ class MappingDescribe extends PropertyDescribe {
             injector.injectLocalKeyValue('cookies', request.cookies);
             injector.injectLocal({request, response});
             // inject body
-            let result = classDecorator.targetBean[propertyEntity.name]({
+            Promise.resolve(classDecorator.targetBean[propertyEntity.name]({
                 ...injector.result()
+            })).then(result => {
+                response[mapped.resultType](result);
             });
-            response[mapped.resultType](result);
         });
         console.log(`register - [${url}] `)
     }
