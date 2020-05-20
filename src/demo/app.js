@@ -39,7 +39,7 @@ class HelloWorld {
 
     @Mapping
     @LogCallMethod
-    sayHello() {
+    sayHello(params) {
         return wait(3000).then(() => 'hello express-annotate!');
     }
 
