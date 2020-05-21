@@ -35,6 +35,10 @@ class MappingDescribe extends PropertyDescribe {
         return 'url';
     }
 
+    get alwaysNext() {
+        return this.getParams('alwaysNext')
+    }
+
     onClassBuilt(propertyEntity, classDecorator) {
         super.onClassBuilt(propertyEntity, classDecorator);
         if (!(classDecorator instanceof RegisterDescribe)) {
@@ -43,7 +47,7 @@ class MappingDescribe extends PropertyDescribe {
         const decoratorParams = classDecorator.params;
         const app = classDecorator.appLauncher;
         const mapped = propertyEntity.findAnnotationByType(Mapping);
-        const propertyMethod = classDecorator.targetBean[propertyEntity.name].bind(classDecorator.targetBean);
+        const propertyMethod = classDecorator.targetBean[propertyEntity.name];
 
         this.onMapping({app, mapped, decoratorParams, propertyMethod});
 

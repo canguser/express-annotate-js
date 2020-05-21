@@ -1,7 +1,8 @@
-import {Register} from "../decorators/Register";
+import {Register, RegisterDescribe} from "../decorators/Register";
 import {Mapping} from "../decorators/Mapping";
 import {Autowired, Bean, Boot, AnnotationGenerator, SectionDescribe, EnergyWire} from "@palerock/annotate-js";
 import {launcher} from "../launcher";
+import {GetMapping} from "../decorators/GetMapping";
 
 const LogCallMethod = AnnotationGenerator.generate(
     class LogCallMethod extends SectionDescribe {
@@ -11,7 +12,7 @@ const LogCallMethod = AnnotationGenerator.generate(
                 console.log(origin.name, 'called');
             }
         }
-    }
+    },[RegisterDescribe]
 );
 
 @Bean
@@ -34,12 +35,13 @@ function wait(ms) {
     })
 }
 
-@Register
+@LogCallMethod
 class HelloWorld {
 
-    @Mapping
-    @LogCallMethod
+    @GetMapping
+
     sayHello(params) {
+        console.log(this);
         return wait(3000).then(() => 'hello express-annotate!');
     }
 
