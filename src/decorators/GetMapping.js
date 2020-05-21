@@ -15,4 +15,4 @@ class GetMappingDescribe extends MappingDescribe {
 
 const GetMapping = AnnotationGenerator.generate(GetMappingDescribe);
 
-export {MappingDescribe, GetMapping}
+export {GetMappingDescribe, GetMapping}
