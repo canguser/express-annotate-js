@@ -11,7 +11,9 @@ class RegisterDescribe extends BeanDescribe {
         Object.assign(this.params, {
             prefix: '',
             port: 3000,
-            multiService: false
+            multiService: false,
+            parsingBody: true,
+            tipTemplate: 'Example app listening on port http://localhost:{}'
         });
     }
 
@@ -21,7 +23,11 @@ class RegisterDescribe extends BeanDescribe {
         super.onCreated();
         if (option.multiService) {
             const port = option.port;
-            app.listen(port, () => console.log(`Example app listening on port http://localhost:${port}!`));
+            if (option.parsingBody) {
+                app.use(express.json()); // for parsing application/json
+                app.use(express.urlencoded({extended: true})); // for parsing application/x-www-form-urlencoded
+            }
+            app.listen(port, () => console.log(option.tipTemplate.replace('{}', port)));
         }
     }
 
