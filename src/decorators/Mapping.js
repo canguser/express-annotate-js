@@ -10,7 +10,8 @@ class MappingDescribe extends PropertyDescribe {
             method: 'get',
             url: '/',
             headers: {},
-            resultType: 'send'
+            resultType: 'send',
+            alwaysNext: false,
         });
     }
 
@@ -39,24 +40,57 @@ class MappingDescribe extends PropertyDescribe {
         if (!(classDecorator instanceof RegisterDescribe)) {
             return;
         }
-        const {prefix} = classDecorator.params;
+        const decoratorParams = classDecorator.params;
         const app = classDecorator.appLauncher;
         const mapped = propertyEntity.findAnnotationByType(Mapping);
+        const propertyMethod = classDecorator.targetBean[propertyEntity.name];
+
+        this.onMapping({app, mapped, decoratorParams, propertyMethod});
+
+    }
+
+    onMapping({app, mapped, decoratorParams, propertyMethod = () => undefined}) {
+        const {prefix} = decoratorParams;
         const url = prefix + mapped.url;
-        app[mapped.method](url, (request, response) => {
-            const injector = new Injector();
-            injector.inject(request.query);
-            injector.inject(request.params);
-            injector.injectLocalKeyValue('cookies', request.cookies);
-            injector.injectLocal({request, response});
-            // inject body
-            Promise.resolve(classDecorator.targetBean[propertyEntity.name]({
-                ...injector.result()
-            })).then(result => {
-                response[mapped.resultType](result);
+        app[mapped.method](url, (request, response, next) => {
+            let isNext = mapped.alwaysNext;
+            response.set(this.headers);
+            Promise.resolve(
+                propertyMethod({
+                    // inject body
+                    ...this.getInjectedParams({
+                        request, response, handleNext() {
+                            isNext = true
+                        }
+                    })
+                })).then(result => {
+                if (isNext) {
+                    request.additionParams = {
+                        ...request.additionParams,
+                        latestData: result
+                    };
+                    next();
+                } else {
+                    response[mapped.resultType](result);
+                }
             });
         });
-        console.log(`register - [${url}] `)
+        console.log(`register - [${mapped.method}][${url}] `)
+    }
+
+    getInjectedParams({response = {}, request = {}, handleNext}) {
+        const injector = new Injector();
+        injector.inject(request.query);
+        injector.inject(request.params);
+        if (request.body && typeof request.body === 'object') {
+            injector.inject(request.body || {});
+        } else {
+            injector.injectLocalKeyValue('body', request.body);
+        }
+        injector.injectLocalKeyValue('cookies', request.cookies);
+        injector.injectLocal({
+            request, response, handleNext
+        });
     }
 }
 

@@ -1,7 +1,6 @@
 import express from 'express';
 import {app} from '../launcher';
-import {BeanDescribe, AnnotationUtils, Injector, AnnotationGenerator} from "@palerock/annotate-js";
-import {Mapping} from "./Mapping";
+import {BeanDescribe, AnnotationGenerator} from "@palerock/annotate-js";
 
 const launchedApp = app;
 
@@ -10,8 +9,8 @@ class RegisterDescribe extends BeanDescribe {
     constructor() {
         super();
         Object.assign(this.params, {
-            port: 3000,
             prefix: '',
+            port: 3000,
             multiService: false
         });
     }
@@ -24,6 +23,10 @@ class RegisterDescribe extends BeanDescribe {
             const port = option.port;
             app.listen(port, () => console.log(`Example app listening on port http://localhost:${port}!`));
         }
+    }
+
+    get defaultKey() {
+        return 'prefix';
     }
 }
 
