@@ -47,7 +47,7 @@ class MappingDescribe extends PropertyDescribe {
         const decoratorParams = classDecorator.params;
         const app = classDecorator.appLauncher;
         const mapped = propertyEntity.findAnnotationByType(Mapping);
-        const propertyMethod = classDecorator.targetBean[propertyEntity.name];
+        const propertyMethod = classDecorator.targetBean[propertyEntity.name].bind(classDecorator.targetBean);
 
         this.onMapping({app, mapped, decoratorParams, propertyMethod});
 
