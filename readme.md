@@ -13,7 +13,7 @@
 ## 快速开始
 ### 引入
 ```shell script
-    npm install @palerock/express-annotate-js
+npm install @palerock/express-annotate-js
 ```
 以及一个简单的能够使用 `proposal-decorators` 提案的开发环境
 ```json
