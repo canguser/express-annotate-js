@@ -45,14 +45,15 @@ npm install @palerock/express-annotate-js
 import {launcher, GetMapping, Register} from "@palerock/express-annotate-js";
 import {Boot, Autowired, Bean} from "@palerock/annotate-js"; 
 
-@Register
+@Register // 将该 class 注册为 web 服务
 class DemoController {
 
     @Autowired
-    DemoService;
+    DemoService; // 自动注入 Service
 
     @GetMapping({url: '/'})
     getContent({content}) {
+        // 通过参数注入获取请求参数
         return `Hello Express Annotate JS, ${this.DemoService.parseContent(content)}`;
     }
 
@@ -71,6 +72,7 @@ class Application {
     port = 3034;
 
     main() {
+        // 启动服务
         launcher.start(this.port);
     }
 
