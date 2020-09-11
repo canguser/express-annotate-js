@@ -40,7 +40,7 @@ npm install @palerock/express-annotate-js
   ]
 }
 ```
-## 快速开始
+### 使用
 ```javascript
 import {launcher, GetMapping, Register} from "@palerock/express-annotate-js";
 import {Boot, Autowired, Bean} from "@palerock/annotate-js"; 
