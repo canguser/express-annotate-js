@@ -6,6 +6,6 @@ export {express}
 
 export const launcher = {
     start: (port) => {
-        app.listen(port, () => console.log(`Example app listening on port http://localhost:${port}!`))
+        app.listen(port, () => console.log(`App listening on port http://localhost:${port}!`))
     },
 };
