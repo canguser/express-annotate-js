@@ -157,6 +157,6 @@ class Application {
 ```
 
 > 如上诉例子所见，只需要对指定方法加上 `async/await` 关键字便可以支持异步方法  
-于此同时，因为使用的是 Express，所以 URL 的书写方式和 Express 表达一致，`/project/:id` 表示 RESTFul 规范中 GET 方法中获取资源的影色规则。
+于此同时，因为使用的是 Express，所以 URL 的书写方式和 Express 表达一致，`/project/:id` 表示 RESTFul 规范中 GET 方法中获取资源的映射规则。
 
 ## 文档撰写中，具体详情请参考源码或留言评论
