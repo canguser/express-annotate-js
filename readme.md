@@ -80,4 +80,83 @@ class Application {
 ```
 运行后在浏览器输入以下链接 `http://localhost:3034/?content=Enjoy%20it`  
 将会看到显示如下内容： `"Hello Express Annotate JS, Parsed content: Enjoy it"`  
+
+### 使用异步方法
+
+**Express Annotate JS 同样支持异步，实例如下：**
+
+```javascript
+import {launcher, GetMapping, Register} from "@palerock/express-annotate-js";
+import {Boot, Autowired, Bean, EnergyWire} from "@palerock/annotate-js"; 
+
+@Register
+class AsyncController {
+
+    @Autowired // 注入 APIService
+    APIService;
+
+    @GetMapping({url: '/project/:id'}) // 使用 :id 将 URL 中的 id 映射为参数并注入到方法中
+    async getProject({id}) {
+        return this.APIService.getProjectCache(id);
+    }
+
+}
+
+@Bean
+class APIService {
+
+    // 注入 Utils 中的 wait 方法
+    @EnergyWire('Utils')
+    wait;
+
+    // 缓存用于返回
+    projectCacheMap = {
+        '1': {
+            name: 'Project 01'
+        },
+        '2': {
+            name: 'project 02'
+        }
+    };
+
+    async getProjectCache(id) {
+        await this.wait(2000); // 等待 2s 
+        if (id in this.projectCacheMap) {
+            return this.projectCacheMap[id];
+        }
+        return null;
+    }
+
+}
+
+@Bean
+class Utils {
+    async wait(ms) {
+        return new Promise(resolve => {
+            setTimeout(() => resolve(), ms);
+        })
+    }
+}
+
+@Boot
+class Application {
+
+    port = 3034;
+
+    main() {
+        launcher.start(this.port);
+    }
+
+}
+```
+
+启动服务后，浏览器输入 `http://localhost:3034/project/1`，可以在等待 2s 后看到返回结果： 
+
+```json
+{"name":"Project 01"}
+```
+
+> 如上诉例子所见，只需要对指定方法加上 `async/await` 关键字便可以支持异步方法  
+于此同时，因为使用的是 Express，所以 URL 的书写方式和 Express 表达一致，`/project/:id` 表示 RESTFul 规范中 GET 方法中获取资源的影色规则。
+
 ## 文档撰写中，具体详情请参考源码或留言评论
