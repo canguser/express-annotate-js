@@ -6,6 +6,7 @@
     - `"@palerock/annotate-js": "^1.2.10"`
     - `"express": "^4.17.1"`
 - 使用前提
+    - 熟悉 ES6 或以上的 Javascript 语法
     - 需要对 NodeJS 服务端开发有一定了解
     - 需要对 express 框架有一定了解
     - 需要了解 `proposal-decorators` 提案以及如何通过 babel 来搭建开发环境
