@@ -1,3 +1,4 @@
+import "@babel/polyfill";
 import {Register} from "../decorators/Register";
 import {Autowired, Bean, Boot, EnergyWire} from "@palerock/annotate-js";
 import {GetMapping} from "../decorators/GetMapping";

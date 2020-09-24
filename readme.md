@@ -1,9 +1,9 @@
 # Express Annotate JS [![gitee.png](https://palerock.cn/api-provider/files/view?identity=L2FydGljbGUvaW1hZ2UvMjAyMDA2MjkxNTQyMTMwNzVXcWZyU2dTbC5wbmc=&w=15)](https://gitee.com/HGJing/express-annotate-js) [![github.png](https://palerock.cn/api-provider/files/view?identity=L2FydGljbGUvaW1hZ2UvMjAyMDA2MjkxNjU3NDkzMDkybWNLRXhHMi5wbmc=&w=15)](https://github.com/canguser/express-annotate-js)
 
-**Express Annotate JS** 是一个基于 Javascript 中的注解提案 `proposal-decorators` 和 `Express` 而实现的一套快速开发的 NodeJS 框架，其注解模块核心基于 [Annotate JS](https://github.com/canguser/annotate-js)  
+**Express Annotate JS** 是一个基于 Javascript 中的注解提案 [`proposal-decorators`](https://babeljs.io/docs/en/babel-plugin-proposal-decorators) 和 `Express` 而实现的一套快速开发的 NodeJS 框架，其注解模块核心基于 [Annotate JS](https://github.com/canguser/annotate-js)  
 ## 使用条件及环境  
 - 依赖项目
-    - `"@palerock/annotate-js": "^1.2.24"`
+    - `"@palerock/annotate-js": "^1.2.26"`
     - `"express": "^4.17.1"`
 - 使用前提
     - 熟悉 ES6 或以上的 Javascript 语法
@@ -35,7 +35,6 @@ npm install @palerock/express-annotate-js
         "legacy": true
       }
     ],
-    "@babel/plugin-proposal-function-bind",
     [
       "@babel/plugin-proposal-class-properties",
       {
