@@ -14,6 +14,10 @@
 ## 快速开始
 ### 引入
 ```shell script
+# 引入依赖
+npm install express@4.17.1
+npm install @palerock/annotate-js
+# 引入 express-annotate-js
 npm install @palerock/express-annotate-js
 ```
 以及一个简单的能够使用 `proposal-decorators` 提案的开发环境
