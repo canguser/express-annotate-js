@@ -17,10 +17,15 @@ class RegisterDescribe extends BeanDescribe {
         });
     }
 
-    onCreated() {
+    beforeCreated() {
+        super.beforeCreated();
         const option = this.params;
         this.appLauncher = option.multiService ? express() : launchedApp;
+    }
+
+    onCreated() {
         super.onCreated();
+        const option = this.params;
         if (option.multiService) {
             const port = option.port;
             if (option.parsingBody) {

@@ -5,13 +5,17 @@ export class RegisterDescribe extends BeanDescribe {
 }
 
 export class MappingDescribe extends PropertyDescribe {
-    method: string;
-    url: string;
-    headers: Object;
-    resultType: string;
-    alwaysNext: boolean;
-    onMapping: (params: { app, mapped, decoratorParams, propertyMethod: Function }) => void;
-    getInjectedParams: (params: { response, request, handleNext: Function }) => Object
+    get method(): string;
+
+    get url(): string;
+
+    get headers(): Object;
+
+    get resultType(): string;
+
+    get alwaysNext(): boolean;
+
+    onMapping(params: { app, mapped, decoratorParams, propertyMethod: Function }): void;
 }
 
 export class GetMappingDescribe extends MappingDescribe {
