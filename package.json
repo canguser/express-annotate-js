@@ -1,6 +1,6 @@
 {
   "name": "@palerock/express-annotate-js",
-  "version": "0.0.26",
+  "version": "0.0.28",
   "description": "",
   "main": "source/index.js",
   "types": "types/index.d.ts",
@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "@babel/polyfill": "^7.11.5",
-    "@palerock/annotate-js": "^1.2.41",
+    "@palerock/annotate-js": "^1.2.42",
     "express": "^4.17.1"
   },
   "devDependencies": {

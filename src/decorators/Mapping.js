@@ -44,23 +44,30 @@ class MappingDescribe extends PropertyDescribe {
         if (!(classDecorator instanceof RegisterDescribe)) {
             return;
         }
+        this.targetBean = classDecorator.targetBean;
         const decoratorParams = classDecorator.params;
         const app = classDecorator.appLauncher;
         const mapped = propertyEntity.findAnnotationByType(Mapping);
-        const propertyMethod = classDecorator.targetBean[propertyEntity.name].bind(classDecorator.targetBean);
 
-        this.onMapping({app, mapped, decoratorParams, propertyMethod});
+        this.onMapping({app, mapped, decoratorParams});
 
     }
 
-    onMapping({app, mapped, decoratorParams, propertyMethod = () => undefined}) {
+    onMapping({app, mapped, decoratorParams}) {
         const {prefix} = decoratorParams;
         const url = prefix + mapped.url;
+        const propertyName = this.propertyEntity.name;
+        const targetBean = this.targetBean;
+        const initialValue = this.propertyEntity.initialValue;
         app[mapped.method](url, (request, response, next) => {
             let isNext = mapped.alwaysNext;
             response.set(this.headers);
+            let propertyMethod = targetBean[propertyName];
+            if (typeof propertyMethod !== 'function') {
+                propertyMethod = () => initialValue;
+            }
             Promise.resolve(
-                propertyMethod({
+                propertyMethod.bind(targetBean)({
                     // inject body
                     ...this.getInjectedParams({
                         request, response, handleNext() {
