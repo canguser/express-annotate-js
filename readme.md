@@ -21,6 +21,20 @@ npm install @palerock/annotate-js
 npm install @palerock/express-annotate-js
 ```
 以及一个简单的能够使用 `proposal-decorators` 提案的开发环境
+
+引入 `babel` 依赖项目(用于使用注解语法，这步很灵活各种方法都行)
+
+```shell script
+npm install -D @babel/cli
+npm install -D @babel/core
+npm install -D @babel/plugin-proposal-class-properties
+npm install -D @babel/plugin-proposal-decorators
+npm install -D @babel/preset-env
+npm install -D @babel/register
+```
+
+然后配置 babel 配置文件 `.babelrc` 在根目录如下
+
 ```json
 {
   "presets": [
@@ -44,7 +58,11 @@ npm install @palerock/express-annotate-js
   ]
 }
 ```
+
 ### 使用
+
+在 `src` 目录下新建 `index.js` 内容如下
+
 ```javascript
 import {launcher, GetMapping, Register} from "@palerock/express-annotate-js";
 import {Boot, Autowired, Bean} from "@palerock/annotate-js"; 
@@ -82,6 +100,15 @@ class Application {
 
 }
 ```
+在根目录创建启动文件 `launcher.js` 如下
+
+```javascript
+require("@babel/register"); // 使用 babel 编译
+require("./src/index") // 启动服务
+```
+
+通过命令行 `npx node launcher.js` 启动服务
+
 运行后在浏览器输入以下链接 `http://localhost:3034/?content=Enjoy%20it`  
 将会看到显示如下内容： `"Hello Express Annotate JS, Parsed content: Enjoy it"`  
 
